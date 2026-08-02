@@ -457,7 +457,7 @@
 
       <div class="form-card">
         <h3>Send a message</h3>
-        <form onsubmit="return false;">
+        <form id="contactForm">
           <div class="field">
             <label for="name">Full name</label>
             <input id="name" type="text" placeholder="Your name">
@@ -470,10 +470,31 @@
             <label for="message">How can we help?</label>
             <textarea id="message" rows="4" placeholder="A short description of what you need"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary" onclick="window.location.href='mailto:contact@regalfinancialadvisors.com'">Send message</button>
+          <button type="submit" class="btn btn-primary">Send message</button>
+          <p id="formFallback" style="display:none; margin-top:14px; font-size:0.85rem; color:#B9C7E6;">
+            If your mail app didn't open, please email us directly at
+            <a href="mailto:contact@regalfinancialadvisors.com" style="color:var(--gold);">contact@regalfinancialadvisors.com</a>.
+          </p>
         </form>
       </div>
     </div>
+
+    <script>
+      document.getElementById('contactForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        var name = document.getElementById('name').value || '(not provided)';
+        var email = document.getElementById('email').value || '(not provided)';
+        var message = document.getElementById('message').value || '(not provided)';
+        var subject = encodeURIComponent('Website enquiry from ' + name);
+        var body = encodeURIComponent(
+          'Name: ' + name + '\n' +
+          'Email: ' + email + '\n\n' +
+          'Message:\n' + message
+        );
+        window.location.href = 'mailto:contact@regalfinancialadvisors.com?subject=' + subject + '&body=' + body;
+        document.getElementById('formFallback').style.display = 'block';
+      });
+    </script>
   </section>
 
 </main>
